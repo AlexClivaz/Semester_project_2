@@ -3,7 +3,6 @@ import argparse
 import os
 import random
 import collections
-from tqdm import tqdm
 from sklearn import metrics
 from torch.nn import Linear, Dropout, ReLU
 from torch_geometric import utils

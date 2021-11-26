@@ -205,10 +205,11 @@ def load_edf_extract_seizures(base_dir, save_data_dir, data_dict):
 def gen_raw_seizure_pkl(args, anno_file):
     
     base_dir = args.base_dir
+    save_dir = args.save_dir
     seizure_types = args.seizure_types # Add the background type
 
     # Create the directory where the raw seizure data will be extracted
-    save_data_dir = os.path.join(base_dir, 'v1.5.2', 'raw')
+    save_data_dir = os.path.join(save_dir, 'v1.5.2', 'raw')
     if not os.path.exists(save_data_dir):
         os.makedirs(save_data_dir)
     
@@ -267,6 +268,7 @@ def main():
     parser = argparse.ArgumentParser(description='Build data for TUH EEG data')
     
     parser.add_argument('--base_dir', default='./data', help='path to seizure dataset')
+    parser.add_argument('--save_dir', default='./data', help='path to save dataset')
     parser.add_argument('--seizure_types',default=['FNSZ','GNSZ','CPSZ','ABSZ','TNSZ'], help="types of seizures for the classification ('BG' not to be included)")
 
     args = parser.parse_args()
