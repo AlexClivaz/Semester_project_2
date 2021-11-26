@@ -130,3 +130,5 @@ dmypy.json
 
 # No data
 data/
+.csv
+.m
