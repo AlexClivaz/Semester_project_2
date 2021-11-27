@@ -267,7 +267,7 @@ def main():
 
     parser = argparse.ArgumentParser(description='Build data for TUH EEG data')
     
-    parser.add_argument('--base_dir', default='./data', help='path to seizure dataset')
+    parser.add_argument('--base_dir', default='../../scratch/alclivaz/data/', help='path to seizure dataset')
     parser.add_argument('--save_dir', default='./data', help='path to save dataset')
     parser.add_argument('--seizure_types',default=['FNSZ','GNSZ','CPSZ','ABSZ','TNSZ'], help="types of seizures for the classification ('BG' not to be included)")
 
