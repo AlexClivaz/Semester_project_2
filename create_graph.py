@@ -8,7 +8,7 @@ import collections
 import pickle
 import mne
 
-parameters = pd.read_csv('data_preparation2/parameters.csv', index_col=['parameter'])
+##parameters = pd.read_csv('data_preparation2/parameters.csv', index_col=['parameter'])
 seizure_type_data = collections.namedtuple('seizure_type_data', ['patient_id','seizure_type', 'data'])
 
 # K nearest neighbors
@@ -21,11 +21,16 @@ seizure_type_data = collections.namedtuple('seizure_type_data', ['patient_id','s
 
 ##montage = str(parameters.loc['montage']['value'])
 ##montage_list = re.split(';', montage)
+
 file = "data/v1.5.2/raw/dev/BG/file_0_pid_00000258_type_BG.pkl"
 eeg = pickle.load(open(file, 'rb'))
 x = eeg.data
-##X = t.dct(x, norm='ortho')
-##sort = np.sort(abs(X))
-##thresh = sort[:,-1000].reshape((-1,1))
-##X[abs(X) < thresh] = 0
-##y = t.idct(X, norm='ortho')
+X = t.dct(x, norm='ortho')
+X = torch.from_numpy(X)
+print(x.shape)
+print(X.shape)
+sort = np.sort(abs(X))
+thresh = sort[:,-1500].reshape((-1,1))
+X[abs(X) < thresh] = 0
+y = t.idct(X, norm='ortho')
+print(np.linalg.norm((x-y)))
