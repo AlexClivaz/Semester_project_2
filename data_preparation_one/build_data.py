@@ -29,7 +29,7 @@ from the excel file) and loads all the .edf files of the dataset into pickle fil
 multiple folders in data/v1.5.2/input)
 """
 
-parameters = pd.read_csv('data_preparation2/parameters.csv', index_col=['parameter'])
+parameters = pd.read_csv('data_preparation_one/parameters.csv', index_col=['parameter'])
 seizure_type_data = collections.namedtuple('seizure_type_data', ['patient_id','seizure_type', 'data'])
 
 def generate_data_dict(base_dir, xlsx_file_name, sheet_name, seizure_types):
@@ -37,7 +37,7 @@ def generate_data_dict(base_dir, xlsx_file_name, sheet_name, seizure_types):
     seizure_info = collections.namedtuple('seizure_info', ['patient_id','filename', 'start_time', 'end_time'])
 
     excel_file = os.path.join(xlsx_file_name)
-    data = pd.read_excel(excel_file, sheet_name=sheet_name)
+    data = pd.read_excel(excel_file, sheet_name=sheet_name, engine='openpyxl')
     data = data.iloc[1:] # remove first row
 
     col_l_file_name = data.columns[11]
@@ -78,6 +78,7 @@ def generate_data_dict(base_dir, xlsx_file_name, sheet_name, seizure_types):
         ref_txt['file_name'] = ref_txt['file_name'].apply(lambda f : "00"+f[:-2] if f[-2:]==".t" else f)
 
     # To format the file names as in ref_dev/train.txt
+    general_files = general_files[~pd.isnull(general_files)]
     cut_files = general_files.apply(lambda n : n.split('/')[-1][:-4])
 
     # Extract all the background samples of the retrieved patient numbers (even when no seizure was recorded)
@@ -209,7 +210,7 @@ def gen_raw_seizure_pkl(args, anno_file):
     seizure_types = args.seizure_types # Add the background type
 
     # Create the directory where the raw seizure data will be extracted
-    save_data_dir = os.path.join(save_dir, 'v1.5.2', 'raw')
+    save_data_dir = os.path.join(save_dir, 'v1.5.2', 'raw_test')
     if not os.path.exists(save_data_dir):
         os.makedirs(save_data_dir)
     
